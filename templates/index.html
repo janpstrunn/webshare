@@ -81,15 +81,6 @@
     </ul>
   </body>
   <script>
-    const links = document.querySelectorAll("a");
-
-    links.forEach((link) => {
-      if (!link.hasAttribute("target")) {
-        link.setAttribute("target", "_blank");
-        link.setAttribute("rel", "noopener noreferrer");
-      }
-    });
-
     document
       .getElementById("togglePreview")
       .addEventListener("click", function () {
