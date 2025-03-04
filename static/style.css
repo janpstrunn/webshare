@@ -1,0 +1,137 @@
+:root {
+  --background: #19191c;
+  --base: #0d0a0a;
+  --eblue: #00ffc9;
+  --egray: #1c1c1f;
+  --epink: #f067fc;
+  --epurple: #7c5cff;
+  --error: #f38ba8;
+  --gray: #d9d9d9;
+  --success: #a6e3a1;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--base);
+  color: var(--egray);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  background: var(--background);
+  padding: 25px;
+  margin-top: 50px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 500px;
+}
+
+h1 {
+  font-size: 28px;
+  color: var(--epurple);
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 22px;
+  color: var(--gray);
+  margin-top: 30px;
+}
+
+.error {
+  color: var(--error);
+  font-weight: bold;
+}
+
+.success {
+  color: var(--success);
+  font-weight: bold;
+}
+
+form {
+  margin-top: 15px;
+}
+
+input[type="file"] {
+  padding: 8px;
+  border: 1px solid var(--gray);
+  border-radius: 5px;
+  background: white;
+  cursor: pointer;
+}
+
+button {
+  background: var(--epurple);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: var(--epink);
+}
+
+ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  list-style-type: none;
+  padding: 20px;
+  max-width: 700px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+li {
+  background: var(--background);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  display: block;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.folder a {
+  color: var(--eblue);
+  font-weight: bold;
+}
+
+.folder a:hover {
+  color: var(--epink);
+}
+
+.file a {
+  color: var(--epurple);
+}
+
+.file a:hover {
+  color: var(--epink);
+}
