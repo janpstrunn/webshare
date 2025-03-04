@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webshare</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="content">
+      <h1>Webshare</h1>
+
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %} {% if message %}
+      <p class="success">{{ message }}</p>
+      {% endif %}
+
+      <form
+        action="{{ url_for('index', path=current_path) }}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input type="file" name="file" />
+        <button type="submit">Upload</button>
+      </form>
+
+      <h2>Current Directory: ./{{ current_path }}</h2>
+      {% if current_path %}
+      <a href="{{ url_for('index', path='') }}">⬅ Back to root</a>
+      {% endif %}
+    </div>
+    <ul>
+      {% for item in files %}
+      <li class="{{ 'folder' if item.is_dir else 'file' }}">
+        {% if item.is_dir %}
+        <a href="{{ url_for('index', path=current_path + '/' + item.name) }}"
+          >{{ item.name }}/</a
+        >
+        {% else %}
+        <a
+          href="{{ url_for('download_file', filename=current_path + '/' + item.name) }}"
+          >{{ item.name }}</a
+        >
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
