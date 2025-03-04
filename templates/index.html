@@ -9,6 +9,9 @@
       href="{{ url_for('static', filename='style.css') }}"
     />
   </head>
+  <div class="controls">
+    <button id="togglePreview">Toggle Preview</button>
+  </div>
   <body>
     <div class="content">
       <h1>Webshare</h1>
@@ -33,7 +36,7 @@
       <a href="{{ url_for('index', path='') }}">⬅ Back to root</a>
       {% endif %}
     </div>
-    <ul>
+    <ul id="fileList" class="grid-view">
       {% for item in files %}
       <li class="{{ 'folder' if item.is_dir else 'file' }}">
         {% if item.is_dir %}
@@ -45,9 +48,56 @@
           href="{{ url_for('download_file', filepath=current_path + '/' + item.name if current_path else item.name) }}"
           >{{ item.name }}</a
         >
+        <div class="preview">
+          {% if item.name.endswith(('.mp3', '.wav', '.ogg')) %}
+          <audio controls>
+            <source
+              src="{{ url_for('media_file', filename=current_path + '/' + item.name if current_path else item.name) }}"
+              type="audio/mpeg"
+              target="_blank"
+            />
+            Your browser does not support the audio element.
+          </audio>
+          {% elif item.name.endswith(('.mp4', '.webm', '.ogg')) %}
+          <video width="320" height="240" controls>
+            <source
+              src="{{ url_for('media_file', filename=current_path + '/' + item.name if current_path else item.name) }}"
+              type="video/mp4"
+              target="_blank"
+            />
+            Your browser does not support the video tag.
+          </video>
+          {% elif item.name.endswith(('.jpg', '.jpeg', '.png', '.gif')) %}
+          <img
+            src="{{ url_for('media_file', filename=current_path + '/' + item.name if current_path else item.name) }}"
+            alt="{{ item.name }}"
+            target="_blank"
+          />
+          {% endif %}
+        </div>
         {% endif %}
       </li>
       {% endfor %}
     </ul>
   </body>
+  <script>
+    const links = document.querySelectorAll("a");
+
+    links.forEach((link) => {
+      if (!link.hasAttribute("target")) {
+        link.setAttribute("target", "_blank");
+        link.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+
+    document
+      .getElementById("togglePreview")
+      .addEventListener("click", function () {
+        const previews = document.querySelectorAll(".preview");
+        previews.forEach((preview) => {
+          preview.style.display =
+            preview.style.display === "none" ? "block" : "none";
+        });
+      });
+  </script>
 </html>

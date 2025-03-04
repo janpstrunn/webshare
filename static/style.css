@@ -82,14 +82,19 @@ button:hover {
   background: var(--epink);
 }
 
-ul {
+.controls {
+  top: 5px;
+  right: 5px;
+  position: fixed;
+}
+
+ul.grid-view {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 10px;
   list-style-type: none;
   padding: 20px;
-  max-width: 700px;
-  width: 100%;
+  width: 90%;
   margin-top: 10px;
 }
 
@@ -134,4 +139,36 @@ a:hover {
 
 .file a:hover {
   color: var(--epink);
+}
+
+.preview {
+  margin-top: 10px;
+}
+
+audio {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+iframe {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 8px;
 }
