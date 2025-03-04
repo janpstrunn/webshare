@@ -42,7 +42,7 @@
         >
         {% else %}
         <a
-          href="{{ url_for('download_file', filename=current_path + '/' + item.name) }}"
+          href="{{ url_for('download_file', filepath=current_path + '/' + item.name if current_path else item.name) }}"
           >{{ item.name }}</a
         >
         {% endif %}

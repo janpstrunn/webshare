@@ -5,7 +5,13 @@ import random
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'files'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip', 'csv', 'xlsx', 'docx'}
+ALLOWED_EXTENSIONS = {
+    'txt', 'md', 'pdf', 'epub', 'docx', 'odt', 'zip', 'doc', 'png', 'jpg', 'jpeg', 'gif',
+    'csv', 'xlsx', 'pptx', 'ppt', 'rtf', 'html', 'xml', 'json', 'yaml', 'mp3', 'mp4', 'avi',
+    'mov', 'mkv', 'wav', 'flac', 'aac', 'ogg', 'webm', 'css', 'js', 'csv', 'tar', 'tar.gz',
+    'tar.bz2', '7z', 'bz2', 'gz', 'rar', 'tiff', 'bmp', 'svg', 'psd', 'ai', 'indd', 'md', 'sh',
+    'exe', 'bat', 'apk', 'iso', 'img', 'dmg', 'mpg', 'flv', 'svg', 'wma', 'webp', 'avif', 'heif'
+}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 app.secret_key = os.urandom(24)
@@ -22,7 +28,6 @@ def get_file_list():
     return sorted([f for f in os.listdir(UPLOAD_FOLDER) if os.path.isfile(os.path.join(UPLOAD_FOLDER, f))])
 
 def get_folder_contents(path=""):
-    """Return a sorted list of files and directories in the given path, with directories first."""
     full_path = os.path.join(UPLOAD_FOLDER, path)
 
     if not os.path.exists(full_path):
@@ -44,8 +49,8 @@ def index(path=""):
     if 'authenticated' not in session:
         return redirect(url_for('login'))
 
-    full_path = os.path.join(UPLOAD_FOLDER, path)
-    os.makedirs(full_path, exist_ok=True)  # Ensure directory exists
+    full_path = os.path.join(app.config['UPLOAD_FOLDER'], path)
+    os.makedirs(full_path, exist_ok=True)
 
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -81,11 +86,16 @@ def logout():
     session.pop('authenticated', None)
     return redirect(url_for('login'))
 
-@app.route('/download/<filename>')
-def download_file(filename):
+@app.route('/download/<path:filepath>')
+def download_file(filepath):
     if 'authenticated' not in session:
         return redirect(url_for('login'))
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+
+    full_path = os.path.join(app.config['UPLOAD_FOLDER'], filepath)
+    if not os.path.abspath(full_path).startswith(os.path.abspath(app.config['UPLOAD_FOLDER'])):
+        return "Invalid file path", 403
+
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filepath, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=False)
